@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morbo – Hallinta</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#4f6d78">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Morbo">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="clock-block">
+    <span class="brand">Morbo</span>
+    <span class="clock-time" id="clock-time">--:--</span>
+    <span class="clock-date" id="clock-date">&nbsp;</span>
+  </div>
+  <div class="topbar-right">
+    <div class="status" id="status" data-i18n="status_saved_cookie">Tallennettu selaimen cookieen</div>
+    <a href="index.html" class="topbar-link" data-i18n="nav_back">← Takaisin</a>
+  </div>
+</div>
+
+<main>
+  <div class="admin-toolbar two-col">
+    <div class="panel">
+      <h2 data-i18n="admin_add_feed_heading">Lisää feed</h2>
+      <form id="feed-form">
+        <div class="form-row">
+          <input type="text" id="feed-name" data-i18n-placeholder="admin_feed_name_placeholder" placeholder="Nimi (esim. Yle Uutiset)" required>
+        </div>
+        <div class="form-row">
+          <input type="url" id="feed-url" data-i18n-placeholder="admin_feed_url_placeholder" placeholder="https://esimerkki.fi/rss" required>
+        </div>
+        <div class="form-row">
+          <select id="feed-column"></select>
+          <button type="submit" data-i18n="admin_add_feed_btn">Lisää feed</button>
+          <button type="button" class="secondary" id="feed-test" data-i18n="admin_test_btn">Testaa</button>
+        </div>
+        <div class="error-text" id="feed-test-result"></div>
+      </form>
+
+      <h2 style="margin-top:24px;" data-i18n="admin_appearance_heading">Ulkoasu ja kieli</h2>
+      <div class="option-group" id="theme-selector">
+        <button type="button" class="option-btn" data-theme-value="eink" data-i18n="theme_eink">E-ink</button>
+        <button type="button" class="option-btn" data-theme-value="light" data-i18n="theme_light">Vaalea</button>
+        <button type="button" class="option-btn" data-theme-value="dark" data-i18n="theme_dark">Tumma</button>
+        <button type="button" class="option-btn" data-theme-value="auto" data-i18n="theme_auto">Automaattinen</button>
+      </div>
+      <div class="option-group" id="lang-selector" style="margin-top:8px;">
+        <button type="button" class="option-btn" data-lang-value="fi">Suomi</button>
+        <button type="button" class="option-btn" data-lang-value="en">English</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 data-i18n="admin_keywords_heading">★ Kiinnostavat avainsanat</h2>
+      <p class="hint" data-i18n="admin_keywords_hint">Otsikot, jotka sisältävät jonkin näistä sanoista, korostetaan dashboardilla ja nostetaan "Sinua kiinnostavat" -osioon.</p>
+      <form id="keyword-form" class="form-row">
+        <input type="text" id="keyword-input" data-i18n-placeholder="admin_keyword_placeholder" placeholder="esim. tekoäly">
+        <button type="submit" data-i18n="admin_add_btn">Lisää</button>
+      </form>
+      <div class="keyword-chips" id="keyword-chips"></div>
+
+      <h2 style="margin-top:24px;" data-i18n="admin_importexport_heading">Tuo / Vie asetukset</h2>
+      <p class="hint" data-i18n="admin_importexport_hint">Asetukset ovat cookiessa tässä selaimessa. Voit varmuuskopioida tai siirtää ne toiseen selaimeen JSON-muodossa.</p>
+      <div class="form-row">
+        <button type="button" class="secondary" id="export-btn" data-i18n="admin_export_btn">Vie JSON</button>
+        <button type="button" class="secondary" id="import-btn" data-i18n="admin_import_btn">Tuo JSON</button>
+        <button type="button" class="danger" id="reset-btn" data-i18n="admin_reset_btn">Tyhjennä kaikki</button>
+      </div>
+      <textarea id="import-export-area" style="display:none;width:100%;height:120px;margin-top:8px;font-family:monospace;font-size:11px;"></textarea>
+    </div>
+  </div>
+
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin: 24px 0 12px;">
+    <h2 style="margin:0;" data-i18n="admin_columns_heading">Sarakkeet</h2>
+    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);">
+      <span data-i18n="admin_items_per_column_label">Otsikoita sarakkeessa:</span>
+      <input type="number" id="items-per-column" min="1" max="50" style="width:60px; padding:6px 8px; border:1px solid var(--border); border-radius:6px; font-size:13px;">
+    </label>
+  </div>
+  <div class="columns" id="board"></div>
+
+  <footer class="app-footer">
+    <span><span data-i18n="footer_author">Tekijä: Joonas Wilska</span> · <a href="mailto:joonas@wilska.fi">joonas@wilska.fi</a></span>
+    <span data-i18n="footer_license">Avoin lähdekoodi — vapaasti käytettävissä ja muokattavissa (MIT-lisenssi)</span>
+    <span id="app-version"></span>
+  </footer>
+</main>
+
+<script src="js/cookies.js"></script>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/version.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  initClock('clock-time', 'clock-date');
+  initThemeSelector('theme-selector');
+  initLangSelector('lang-selector');
+  document.getElementById('app-version').textContent = 'v' + APP_VERSION;
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+</body>
+</html>

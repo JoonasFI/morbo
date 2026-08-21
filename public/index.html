@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morbo</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#4f6d78">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Morbo">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="clock-block">
+    <span class="brand">Morbo</span>
+    <span class="clock-time" id="clock-time">--:--</span>
+    <span class="clock-date" id="clock-date">&nbsp;</span>
+  </div>
+  <div class="topbar-right">
+    <div class="status" id="status" data-i18n="status_loading">Ladataan...</div>
+    <a href="admin.html" class="topbar-link" data-i18n="nav_admin">Hallinta</a>
+  </div>
+</div>
+
+<main>
+  <section class="for-you" id="for-you">
+    <h2 data-i18n="foryou_heading">★ Sinua kiinnostavat</h2>
+    <div id="for-you-list" class="for-you-empty" data-i18n="foryou_empty_nokeywords">Ei avainsanoja määritetty. Lisää niitä hallintapaneelista korostaaksesi itseäsi kiinnostavat otsikot.</div>
+  </section>
+
+  <div class="columns" id="columns"></div>
+</main>
+
+<script src="js/cookies.js"></script>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  initClock('clock-time', 'clock-date');
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "morbo",
+  "version": "1.0.0",
+  "description": "Morbo — RSS-otsikoiden dashboard ja hallintapaneeli, asetukset cookiessa",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "rss-parser": "^3.13.0"
+  }
+}

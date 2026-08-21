@@ -1,31 +1,33 @@
+🇫🇮 [Suomeksi](README.fi.md)
+
 # Morbo
 
-Morbo kokoaa eri RSS-feedien otsikot yhteen näkymään — omiin sarakkeisiin järjesteltynä, ilman kirjautumista. Kaikki asetukset (feedit, sarakkeet, avainsanat, ulkoasu, kieli) tallentuvat pelkkään selaimen cookieen, ei tietokantaa eikä käyttäjätilejä.
+Morbo pulls headlines from your RSS feeds into a single view — organized into your own columns, with no login. All settings (feeds, columns, keywords, appearance, language) live in a browser cookie, so there's no database and no user accounts.
 
-## Ominaisuudet
+## Features
 
-- **Dashboard** — otsikot ryhmiteltynä omavalintaisiin sarakkeisiin, päivittyy automaattisesti 5 minuutin välein ilman välkähdystä
-- **Hallintapaneeli** — feedien lisäys/muokkaus/poisto, sarakkeiden raahaus- ja uudelleenjärjestely, tuonti/vienti JSON-muodossa
-- **Kiinnostavat avainsanat** — sanarajoja kunnioittava täsmäys, osumat korostuvat sarakkeissa ja kootaan "Sinua kiinnostavat" -osioon; uudet osumat merkitään erikseen
-- **Ulkoasu** — vaalea, tumma, e-ink-ystävällinen (harmaasävy, ei animaatioita) ja automaattinen (seuraa käyttöjärjestelmää) teema
-- **Kaksikielinen** käyttöliittymä (suomi/englanti)
-- **PWA** — asennettavissa puhelimen/tietokoneen aloitusnäytölle
-- Feedien tila näkyy hallinnassa (toimiiko feed vai ei)
+- **Dashboard** — headlines grouped into custom columns, auto-refreshes every 5 minutes without flicker
+- **Admin panel** — add/edit/delete feeds, drag-and-drop reordering of columns, import/export as JSON
+- **Keywords of interest** — word-boundary-aware matching, matches are highlighted in their column and surfaced in a "For you" section; new matches since your last visit are flagged
+- **Appearance** — light, dark, e-ink-friendly (grayscale, no animation), and automatic (follows your OS) themes
+- **Bilingual** UI (English/Finnish)
+- **PWA** — installable to your phone or desktop home screen
+- Feed health is visible in the admin panel (working vs. broken)
 
-## Käyttöönotto
+## Getting started
 
 ```bash
 npm install
 npm start
 ```
 
-Sovellus käynnistyy osoitteeseen `http://localhost:3000`. Dashboard löytyy juuresta, hallintapaneeli `/admin.html`-polusta.
+The app runs at `http://localhost:3000`. The dashboard is at the root, the admin panel at `/admin.html`.
 
-## Arkkitehtuuri
+## Architecture
 
-- **server.js** — kevyt Express-palvelin, jonka ainoa tehtävä on hakea ja jäsentää RSS-feedit palvelinpuolella (selain ei pysty tähän suoraan CORS-rajoitusten takia) sekä tarjoilla staattiset tiedostot. Palvelin ei tallenna mitään käyttäjäkohtaista tilaa.
-- **public/** — koko käyttöliittymä (HTML/CSS/vanilla JS), ei build-vaihetta.
+- **server.js** — a thin Express server whose only job is fetching and parsing RSS feeds server-side (browsers can't do this directly due to CORS) and serving the static files. The server holds no per-user state.
+- **public/** — the entire UI (HTML/CSS/vanilla JS), no build step.
 
-## Lisenssi
+## License
 
-MIT — katso [LICENSE](LICENSE). Tekijä: Joonas Wilska ([joonas@wilska.fi](mailto:joonas@wilska.fi)).
+MIT — see [LICENSE](LICENSE). Author: Joonas Wilska ([joonas@wilska.fi](mailto:joonas@wilska.fi)).
